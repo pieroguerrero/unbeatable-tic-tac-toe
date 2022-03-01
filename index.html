@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <link rel="stylesheet" href="css/output.css">
+
+    <script type="text/javascript" src="js/game.js" defer></script>
+</head>
+
+<body class="h-screen">
+    <main class="h-full">
+        <div class="presentation-ui hidden"></div>
+        <div class="game-ui h-full grid md:grid-rows-[3fr_1fr] md:grid-cols-[1fr_2fr_1fr]">
+            <div class="score-player1 md:row-start-1 md:row-end-3 md:col-start-1 md:col-end-1">
+                <div class="name-image">
+                    <img src="" alt="">
+                    <p></p>
+                </div>
+                <div class="score">
+                    <div class="wins">
+                        <p>Wins: </p>
+                        <p class="wins-value"></p>
+                    </div>
+                    <div class="losses">
+                        <p>Losses: </p>
+                        <p class="losses-value"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="
+            gameboard 
+            md:row-start-1 md:row-end-2 md:col-start-2 md:col-end-3
+            grid grid-rows-3 grid-cols-3 gap-6 bg-slate-400">
+                <div id="r0-c0" class="board-cell">0</div>
+                <div id="r0-c1" class="board-cell">1</div>
+                <div id="r0-c2" class="board-cell">2</div>
+
+                <div id="r1-c0" class="board-cell">3</div>
+                <div id="r1-c1" class="board-cell">4</div>
+                <div id="r1-c2" class="board-cell">5</div>
+
+                <div id="r2-c0" class="board-cell">6</div>
+                <div id="r2-c1" class="board-cell">7</div>
+                <div id="r2-c2" class="board-cell">8</div>
+            </div>
+            <div class="actions md:row-start-2 md:row-end-3 md:col-start-2 md:col-end-3">
+                <button>Restart</button>
+            </div>
+            <div class="score-player2 md:row-start-1 md:row-end-3 md:col-start-3 md:col-end-4">
+                <div class="name-image">
+                    <img src="" alt="">
+                    <p></p>
+                </div>
+                <div class="score">
+                    <div class="wins">
+                        <p>Wins: </p>
+                        <p class="wins-value"></p>
+                    </div>
+                    <div class="losses">
+                        <p>Losses: </p>
+                        <p class="losses-value"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer></footer>
+</body>
+
+</html>
