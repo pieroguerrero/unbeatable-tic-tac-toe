@@ -19,17 +19,24 @@ function play(objPostion) {
             secPlayer = referee.player1
         }
 
-        referee.gameBoard.placeMark(player.getID(), player.getImgSrc(), player.getImgAlt(), objPostion.rowPos, objPostion.colPos);
+        referee.gameBoard.placeMark(player.getID(), player.getImgAlt(), objPostion.rowPos, objPostion.colPos);
         const threeLineResult = referee.gameBoard.veridateThreeInLine(player.getID(), objPostion.rowPos, objPostion.colPos);
 
         if (threeLineResult) {
             player.setWins(player.getWins() + 1);
-            secPlayer.setWins(player.getLosses() + 1);
+            secPlayer.setLosses(secPlayer.getLosses() + 1);
 
-            //pintar la raya
-            //reiniciar tablero
+            referee.gameBoard.drawThreeLine(objPostion.rowPos, objPostion.colPos, threeLineResult);
+
+            //setTimeout(() => referee.gameBoard = createBoard(), 2000);
+
+            referee.turn = 1;
+            referee.numGame++;
+
+            //referee.gameBoard = createBoard();
         } else {
             referee.turn = (referee.turn === 1) ? 2 : 1;
+            secPlayer.notifyTurn();
         }
     }
 

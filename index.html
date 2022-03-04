@@ -6,74 +6,95 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe</title>
-    <link rel="stylesheet" href="css/output.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" href="./css/output.css">
 
-    <script type="module" src="js/pubsub.js" defer></script>
-    <script type="module" src="js/players.js" defer></script>
-    <script type="module" src="js/board.js" defer></script>
-    <script type="module" src="js/game.js" defer></script>
+    <script type="module" src="./js/pubsub.js" defer></script>
+    <script type="module" src="./js/players.js" defer></script>
+    <script type="module" src="./js/board.js" defer></script>
+    <script type="module" src="./js/game.js" defer></script>
     <!-- 
     
     <script type="text/javascript" src="js/pubsub.js" defer></script> -->
 </head>
 
-<body class="h-screen">
-    <main class="h-full">
+<body class="h-screen flex flex-col">
+    <main class="flex-1">
         <div class="presentation-ui hidden"></div>
-        <div class="game-ui h-full grid md:grid-rows-[3fr_1fr] md:grid-cols-[1fr_2fr_1fr]">
-            <div class="player1 md:row-start-1 md:row-end-3 md:col-start-1 md:col-end-1">
-                <div class="name-image">
-                    <img src="" alt="">
+        <div class="game-ui h-full grid grid-rows-[1fr_2fr_1fr] grid-cols-2 
+        md:grid-rows-[4fr_1fr] md:grid-cols-[1fr_3fr_1fr] p-5 pt-7 gap-5">
+            <div
+                class="player1 row-start-1 row-end-2 col-start-1 col-end-2
+                md:row-start-1 md:row-end-3 md:col-start-1 md:col-end-1 div-player-panel-default md:flex-col md:justify-center md:items-center">
+                <div class="name-image flex items-center justify-center flex-col md:gap-5">
+                    <img class="h-[100px] md:h-[200px]" src="" alt="">
                     <p></p>
                 </div>
-                <div class="score">
-                    <div class="wins">
+                <div class="score flex flex-col justify-center items-start  pl-[50px] md:pl-0">
+                    <div class="wins flex gap-3">
                         <p>Wins: </p>
                         <p class="wins-value"></p>
                     </div>
-                    <div class="losses">
+                    <div class="losses  flex gap-3"">
                         <p>Losses: </p>
-                        <p class="losses-value"></p>
+                        <p class=" losses-value">
+                        </p>
                     </div>
                 </div>
             </div>
-            <div id="gameboard" class="
+
+            <div id="gameboard" class=" row-start-2 row-end-3 col-start-1 col-end-3
             md:row-start-1 md:row-end-2 md:col-start-2 md:col-end-3
             grid grid-rows-3 grid-cols-3 gap-6 bg-slate-400">
-                <div id="r0-c0" class="board-cell"></div>
-                <div id="r0-c1" class="board-cell"></div>
-                <div id="r0-c2" class="board-cell"></div>
+                <div id="r0-c0" class="board-cell md:text-[13rem]"></div>
+                <div id="r0-c1" class="board-cell md:text-[13rem]"></div>
+                <div id="r0-c2" class="board-cell md:text-[13rem]"></div>
 
-                <div id="r1-c0" class="board-cell"></div>
-                <div id="r1-c1" class="board-cell"></div>
-                <div id="r1-c2" class="board-cell"></div>
+                <div id="r1-c0" class="board-cell md:text-[13rem]"></div>
+                <div id="r1-c1" class="board-cell md:text-[13rem]"></div>
+                <div id="r1-c2" class="board-cell md:text-[13rem]"></div>
 
-                <div id="r2-c0" class="board-cell"></div>
-                <div id="r2-c1" class="board-cell"></div>
-                <div id="r2-c2" class="board-cell"></div>
+                <div id="r2-c0" class="board-cell md:text-[13rem]"></div>
+                <div id="r2-c1" class="board-cell md:text-[13rem]"></div>
+                <div id="r2-c2" class="board-cell md:text-[13rem]"></div>
+
+
             </div>
-            <div class="actions md:row-start-2 md:row-end-3 md:col-start-2 md:col-end-3">
-                <button>Restart</button>
+
+            <div class="actions row-start-3 row-end-4 col-start-1 col-end-3
+                md:row-start-2 md:row-end-3 md:col-start-2 md:col-end-3 flex items-center justify-center">
+                <button class="m-auto py-2 px-4 border-0 bg-black w-28 text-white rounded-sm font-bold">Restart</button>
             </div>
-            <div class="player2 md:row-start-1 md:row-end-3 md:col-start-3 md:col-end-4">
-                <div class="name-image">
-                    <img src="" alt="">
+            <div
+                class="player2 row-start-1 row-end-2 col-start-2 col-end-3
+                md:row-start-1 md:row-end-3 md:col-start-3 md:col-end-4 div-player-panel-default md:justify-center md:items-center ">
+                <div class="name-image flex items-center justify-center flex-col md:gap-5">
+                    <img class="h-[100px] md:h-[200px]" src="" alt="">
                     <p></p>
                 </div>
-                <div class="score">
-                    <div class="wins">
+                <div class="score lex flex-col justify-center items-start pl-[50px] md:pl-0">
+                    <div class="wins flex gap-3">
                         <p>Wins: </p>
                         <p class="wins-value"></p>
                     </div>
-                    <div class="losses">
+                    <div class="losses  flex gap-3"">
                         <p>Losses: </p>
-                        <p class="losses-value"></p>
+                        <p class=" losses-value">
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
+
     </main>
-    <footer></footer>
+    <svg id="svg-line" class="fixed left-0 top-0 m-0 pointer-events-none z-auto w-full h-full"></svg>
+    <footer class="flex items-center justify-center gap-3 bg-black text-white p-3 text-lg">
+        <span>Created by <strong><a id="link-footer" href="https://github.com/pieroguerrero">pieroguerrero</a>
+            </strong></span>
+        <a href="https://github.com/pieroguerrero">
+            <i class="fab fa-github fa-2x" aria-hidden="true"></i>
+        </a>
+    </footer>
 </body>
 
 </html>

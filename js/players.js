@@ -6,9 +6,9 @@ const playerActions = {
         const panelHtml = document.querySelector("." + panelClassID);
         panelHtml.setAttribute("id", this.id);
 
-        const profileImg = panelHtml.querySelector(".name-image img");
-        profileImg.setAttribute("src", this.imgProfileSrc);
-        profileImg.setAttribute("alt", this.imgProfileAlt);
+        this.profileImg = panelHtml.querySelector(".name-image img");
+        this.profileImg.setAttribute("src", this.imgProfileSrc);
+        this.profileImg.setAttribute("alt", this.imgProfileAlt);
 
         const playerName = panelHtml.querySelector(".name-image p");
         playerName.textContent = this.name;
@@ -22,14 +22,21 @@ const playerActions = {
     setLosses: function (newNlosses) {
 
         this.nLosses = newNlosses;
-        this.pLossesHtmls.textContent = newNlosses + "";
+        this.pLossesHtml.textContent = newNlosses + "";
     },
     setWins: function (newNwins) {
 
         this.nWins = newNwins;
-        this.pWinsHtmls.textContent = newNwins + "";
+        this.pWinsHtml.textContent = newNwins + "";
     },
     notifyTurn: function () {
+
+        if (this.profileImg.classList.contains("animation-notify")) {
+
+            const newone = this.profileImg.cloneNode(true);
+            this.profileImg.parentNode.replaceChild(newone, this.profileImg);
+            this.profileImg = newone;
+        } else this.profileImg.classList.add("animation-notify");
 
     },
     getWins: function () {
@@ -47,11 +54,6 @@ const playerActions = {
     getProfileAlt: function () {
         return this.imgProfileAlt;
     },
-
-    getImgSrc: function () {
-        return this.imgScr;
-    },
-
     getImgAlt: function () {
         return this.imgAlt;
     },
@@ -65,12 +67,13 @@ export function createPlayer(name, imgSrc, imgAlt, imgProfileSRC, imgProfileALT)
     player.name = name;
     player.imgProfileSrc = imgProfileSRC;
     player.imgProfileAlt = imgProfileALT;
-    player.imgScr = imgSrc;
+    // player.imgScr = imgSrc;
     player.imgAlt = imgAlt;
     player.pWinsHtml = null;
     player.pLossesHtml = null;
     player.nWins = 0;
     player.nLosses = 0;
+    player.profileImg = null;
 
     return {
         getID: player.getID.bind(player),
@@ -82,7 +85,7 @@ export function createPlayer(name, imgSrc, imgAlt, imgProfileSRC, imgProfileALT)
         setLosses: player.setLosses.bind(player),
         getProfileSrc: player.getProfileSrc.bind(player),
         getProfileAlt: player.getProfileAlt.bind(player),
-        getImgSrc: player.getImgSrc.bind(player),
+        // getImgSrc: player.getImgSrc.bind(player),
         getImgAlt: player.getImgAlt.bind(player),
 
     };

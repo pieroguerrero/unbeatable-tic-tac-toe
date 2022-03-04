@@ -9,19 +9,24 @@ export function createBoard() {
     ];
 
     const _htmlBoard = document.getElementById("gameboard");
+    const _svgLine = document.getElementById("svg-line");
+    _svgLine.classList.add("hidden");
     const _cellsHtml = _htmlBoard.querySelectorAll(".board-cell");
+
 
     _cellsHtml.forEach(cell => {
 
-        const newImg = document.createElement("img");
-        let img = cell.querySelector("img");
-        if (!img) {
+        // const newImg = document.createElement("img");
+        // let img = cell.querySelector("img");
+        // if (!img) {
 
-            cell.appendChild(newImg);
-        } else {
+        //     cell.appendChild(newImg);
+        // } else {
 
-            img = newImg;
-        }
+        //     img = newImg;
+        // }
+
+        cell.textContent = "";
     });
 
     function _clickOnCell() {
@@ -32,21 +37,22 @@ export function createBoard() {
         events.emit("clickOnCell", { rowPos, colPos });
     };
 
-    _cellsHtml.forEach(cell => cell.addEventListener("click", _clickOnCell.bind(cell)));
+    //_cellsHtml.forEach(cell => cell.addEventListener("click", _clickOnCell.bind(cell)));
+    _cellsHtml.forEach(cell => cell.onclick = _clickOnCell.bind(cell));
 
-    const _renderMark = (imgSrc, imgAlt, rowPos, colPos) => {
+    const _renderMark = (imgAlt, rowPos, colPos) => {
 
         const cell = _htmlBoard.querySelector("#r" + rowPos + "-c" + colPos);//r0-c0
-
-        const img = cell.querySelector("img");
-        img.setAttribute("src", imgSrc);
-        img.setAttribute("alt", imgAlt);
+        cell.textContent = imgAlt;
+        // const img = cell.querySelector("img");
+        // img.setAttribute("src", imgSrc);
+        // img.setAttribute("alt", imgAlt);
     };
 
-    const placeMark = (playerID, imgScr, imgAlt, rowPos, colPos) => {
+    const placeMark = (playerID, imgAlt, rowPos, colPos) => {
 
-        _arrBoard[rowPos][colPos] = _createObjMark(playerID, imgScr, imgAlt, rowPos, colPos);
-        _renderMark(imgScr, imgAlt, rowPos, colPos);
+        _arrBoard[rowPos][colPos] = _createObjMark(playerID, imgAlt, rowPos, colPos);
+        _renderMark(imgAlt, rowPos, colPos);
     };
 
     const checkPositionEmpty = (row, col) => {
@@ -57,6 +63,8 @@ export function createBoard() {
 
         return false;
     };
+
+
 
     //will check if, based on the last movement, there is a winner or not
     const veridateThreeInLine = (lastPlayerID, lastRowPos, lastColPos) => {
@@ -78,11 +86,11 @@ export function createBoard() {
                 vertical++;
             }
 
-            if ((((lastRowPos === 0 && lastColPos === 0) || (lastRowPos === 2 && lastColPos === 2)) && (_arrBoard[i][i].playerID === lastPlayerID))) {
+            if ((((lastRowPos === 0 && lastColPos === 0) || (lastRowPos === 2 && lastColPos === 2) || (lastRowPos === 1 && lastColPos === 1)) && ((_arrBoard[i][i]) && (_arrBoard[i][i].playerID === lastPlayerID)))) {
                 diag++;
             }
 
-            if ((((lastRowPos === 2 && lastColPos === 0) || (lastRowPos === 0 && lastColPos === 2)) && (_arrBoard[i][size - i + 1].playerID === lastPlayerID))) {
+            if ((((lastRowPos === 2 && lastColPos === 0) || (lastRowPos === 0 && lastColPos === 2) || (lastRowPos === 1 && lastColPos === 1)) && ((_arrBoard[i][size - i - 1]) && (_arrBoard[i][size - i - 1].playerID === lastPlayerID)))) {
                 rdiag++;
             }
         }
@@ -111,18 +119,119 @@ export function createBoard() {
         return result;
     };
 
-    const getThreeInLine = (lastRowPos, lastColPos, direction) => {
+    const _createLine = (start, end, direction) => {
 
+        let x1, y1, x2, y2;
+
+        switch (direction) {
+            case "vertical":
+
+                x1 = start.left + start.width / 2;
+                y1 = start.top;
+                x2 = end.left + end.width / 2;
+                y2 = end.top + end.height;
+
+
+                break;
+            case "horizontal":
+                x1 = start.left;
+                y1 = start.top + start.height / 2;
+                x2 = end.left + end.width;
+                y2 = end.top + end.height / 2;
+
+                break;
+            case "diag":
+
+                x1 = start.left;
+                y1 = start.top;
+                x2 = end.left + end.width;
+                y2 = end.top + end.height;
+                break;
+            case "rdiag":
+
+                x1 = start.left + start.width;
+                y1 = start.top;
+                x2 = end.left;
+                y2 = end.top + end.height;
+                break;
+
+            default:
+                break;
+        }
+
+        const newLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+
+        newLine.setAttribute('id', 'line1');
+        newLine.setAttribute('x1', x1);
+        newLine.setAttribute('y1', y1);
+        newLine.setAttribute('x2', x2);
+        newLine.setAttribute('y2', y2);
+        newLine.setAttribute('style', 'stroke: red; stroke-width: 5; z-index: 50;');
+
+        return newLine;
     };
 
-    return { checkPositionEmpty, placeMark, veridateThreeInLine };
+    const drawThreeLine = (lastRowPos, lastColPos, direction) => {
+
+        let rIni, cIni, rFin, cFin;
+
+        switch (direction) {
+            case "vertical":
+                rIni = 0;
+                cIni = lastColPos;
+
+                rFin = 2;
+                cFin = lastColPos;
+                break;
+            case "horizontal":
+                rIni = lastRowPos;
+                cIni = 0;
+
+                rFin = lastRowPos;
+                cFin = 2;
+                break;
+            case "diag":
+                rIni = 0;
+                cIni = 0;
+
+                rFin = 2;
+                cFin = 2;
+                break;
+            case "rdiag":
+                rIni = 0;
+                cIni = 2;
+
+                rFin = 2;
+                cFin = 0;
+                break;
+
+            default:
+                break;
+        }
+
+        const start = _htmlBoard.querySelector("#r" + rIni + "-c" + cIni).getBoundingClientRect();
+        const end = _htmlBoard.querySelector("#r" + rFin + "-c" + cFin).getBoundingClientRect();
+
+        const newLine = _createLine(start, end, direction);
+
+        if (_svgLine.firstChild) {
+            _svgLine.removeChild(_svgLine.firstChild);
+        }
+
+        _svgLine.append(newLine);
+        _svgLine.classList.remove("hidden");
+        _svgLine.classList.add("z-auto");
+    };
+
+    return { checkPositionEmpty, placeMark, veridateThreeInLine, drawThreeLine };
 };
 
-function _createObjMark(playerID, imgSrc, imgAlt, rowPos, colPos) {
+function _createObjMark(playerID, imgAlt, rowPos, colPos) {
 
     return {
         playerID: playerID,
-        playerMark: { imgSrc: imgSrc, imgAlt: imgAlt },
+        playerMark: { imgAlt: imgAlt },
         pos: { row: rowPos, col: colPos },
     };
 }
+
