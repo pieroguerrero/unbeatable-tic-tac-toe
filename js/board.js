@@ -2,6 +2,14 @@ import { events } from "./pubsub.js";
 
 export function createBoard() {
 
+    const _audioTags = {
+        welcome: { id: "welcome-audio", audio: null },
+        player1: { id: "player1-audio", audio: null },
+        player2: { id: "player2-audio", audio: null },
+        match: { id: "match-audio", audio: null },
+        tie: { id: "tie-audio", audio: null },
+    }
+
     const _arrBoard = [
         [null, null, null],
         [null, null, null],
@@ -9,24 +17,14 @@ export function createBoard() {
     ];
 
     const _htmlBoard = document.getElementById("gameboard");
-    const _svgLine = document.getElementById("svg-line");
-    _svgLine.classList.add("hidden");
+    //const _svgLine = document.getElementById("svg-line");
+    //_svgLine.classList.add("hidden");
     const _cellsHtml = _htmlBoard.querySelectorAll(".board-cell");
 
 
     _cellsHtml.forEach(cell => {
-
-        // const newImg = document.createElement("img");
-        // let img = cell.querySelector("img");
-        // if (!img) {
-
-        //     cell.appendChild(newImg);
-        // } else {
-
-        //     img = newImg;
-        // }
-
         cell.textContent = "";
+        cell.classList.remove("animation-mark-pulse");
     });
 
     function _clickOnCell() {
@@ -40,19 +38,27 @@ export function createBoard() {
     //_cellsHtml.forEach(cell => cell.addEventListener("click", _clickOnCell.bind(cell)));
     _cellsHtml.forEach(cell => cell.onclick = _clickOnCell.bind(cell));
 
-    const _renderMark = (imgAlt, rowPos, colPos) => {
+    const _renderMark = (turn, imgAlt, rowPos, colPos) => {
 
         const cell = _htmlBoard.querySelector("#r" + rowPos + "-c" + colPos);//r0-c0
-        cell.textContent = imgAlt;
-        // const img = cell.querySelector("img");
-        // img.setAttribute("src", imgSrc);
-        // img.setAttribute("alt", imgAlt);
+
+        const newP = document.createElement("p");
+        newP.setAttribute("style", "padding:0px,margin:0px;")
+        newP.classList.add("animation-mark");
+        newP.textContent = imgAlt;
+
+        cell.appendChild(newP);
+
+        if (turn === 1) {
+            myPlay(_audioTags.player1);
+        } else myPlay(_audioTags.player2);
+
     };
 
-    const placeMark = (playerID, imgAlt, rowPos, colPos) => {
+    const placeMark = (playerID, imgAlt, rowPos, colPos, turn) => {
 
         _arrBoard[rowPos][colPos] = _createObjMark(playerID, imgAlt, rowPos, colPos);
-        _renderMark(imgAlt, rowPos, colPos);
+        _renderMark(turn, imgAlt, rowPos, colPos);
     };
 
     const checkPositionEmpty = (row, col) => {
@@ -112,6 +118,10 @@ export function createBoard() {
 
                 result = "rdiag";
                 break;
+            case (!_arrBoard.some(row => row.includes(null))):
+
+                result = "full";
+                break;
             default:
                 break;
         }
@@ -168,6 +178,8 @@ export function createBoard() {
         newLine.setAttribute('y2', y2);
         newLine.setAttribute('style', 'stroke: red; stroke-width: 5; z-index: 50;');
 
+        newLine.classList.add("animation-line");
+
         return newLine;
     };
 
@@ -214,17 +226,86 @@ export function createBoard() {
 
         const newLine = _createLine(start, end, direction);
 
-        if (_svgLine.firstChild) {
-            _svgLine.removeChild(_svgLine.firstChild);
-        }
+        // if (_svgLine.firstChild) {
+        //     _svgLine.removeChild(_svgLine.firstChild);
+        // }
 
-        _svgLine.append(newLine);
-        _svgLine.classList.remove("hidden");
-        _svgLine.classList.add("z-auto");
+        // _svgLine.append(newLine);
+        // _svgLine.classList.remove("hidden");
+        // _svgLine.classList.add("z-auto");
+        //to animate de line: https://css-tricks.com/svg-line-animation-works/
     };
 
-    return { checkPositionEmpty, placeMark, veridateThreeInLine, drawThreeLine };
+    const pulseMarks = (lastRowPos, lastColPos, direction) => {
+
+        let rIni, cIni, rMed, cMed, rFin, cFin;
+
+        switch (direction) {
+            case "vertical":
+                rIni = 0;
+                cIni = lastColPos;
+
+                rFin = 2;
+                cFin = lastColPos;
+
+                break;
+            case "horizontal":
+                rIni = lastRowPos;
+                cIni = 0;
+
+                rFin = lastRowPos;
+                cFin = 2;
+                break;
+            case "diag":
+                rIni = 0;
+                cIni = 0;
+
+                rFin = 2;
+                cFin = 2;
+                break;
+            case "rdiag":
+                rIni = 0;
+                cIni = 2;
+
+                rFin = 2;
+                cFin = 0;
+                break;
+
+            default:
+                break;
+        }
+
+        rMed = (rIni + rFin) / 2;
+        cMed = (cIni + cFin) / 2;
+
+        const pIni = _htmlBoard.querySelector("#r" + rIni + "-c" + cIni).firstElementChild;
+        const pMed = _htmlBoard.querySelector("#r" + rMed + "-c" + cMed).firstElementChild;
+        const pFin = _htmlBoard.querySelector("#r" + rFin + "-c" + cFin).firstElementChild;
+
+        pIni.classList.add("animation-mark-pulse");
+        pMed.classList.add("animation-mark-pulse");
+        pFin.classList.add("animation-mark-pulse");
+
+
+        setTimeout(() => myPlay(_audioTags.match), 1000);
+
+    }
+
+    const notifyTie = () => {
+
+
+        _cellsHtml.forEach(cell => {
+            cell.classList.add("animation-mark-pulse");
+        });
+
+        myPlay(_audioTags.tie);
+
+    };
+
+    return { checkPositionEmpty, placeMark, veridateThreeInLine, drawThreeLine, pulseMarks, notifyTie };
 };
+
+
 
 function _createObjMark(playerID, imgAlt, rowPos, colPos) {
 
@@ -235,3 +316,15 @@ function _createObjMark(playerID, imgAlt, rowPos, colPos) {
     };
 }
 
+function myPlay(objAudio) {
+
+    if (objAudio.audio) {
+
+        objAudio.audio.play();
+    } else {
+        objAudio.audio = document.getElementById(objAudio.id);
+        objAudio.audio.play();
+    }
+    // const audio = new Audio(tagName);
+    // audio.play();
+}

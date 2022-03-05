@@ -5,7 +5,9 @@ module.exports = {
     './js/*.{html,js}',
   ],
   theme: {
-    extend: {},
+    extend: {
+
+    },
   },
   plugins: [],
 }

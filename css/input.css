@@ -1,12 +1,22 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;700&family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap'); */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+
+/* html { */
+/* font-family: 'Rajdhani', sans-serif; */
+/* font-family: 'Ubuntu', sans-serif; */
+/* } */
+
 
 .animation-notify {
 
     animation: shake 0.5s;
     animation-iteration-count: 1;
-    animation-delay: 0.7s;
+    /* animation-delay: 0.7s; */
 }
 
 @keyframes shake {
@@ -55,13 +65,72 @@
     }
 }
 
-.board-cell {
-    @apply bg-white leading-none flex items-center justify-center text-[5rem] font-bold;
+.animation-mark {
+    animation: text-fadein 1s;
 }
 
+@keyframes text-fadein {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.animation-line {
+    animation-name: text-fadein-line;
+    animation-duration: 2s;
+    /* animation-delay: 2s; */
+}
+
+@keyframes text-fadein-line {
+    0% {
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.animation-mark-pulse {
+    animation-name: mark-pulse;
+    animation-duration: 0.7s;
+    animation-delay: 0.8s;
+}
+
+@keyframes mark-pulse {
+    0% {
+        opacity: 0;
+    }
+
+    25% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    75% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.board-cell {
+    @apply leading-none flex items-center justify-center text-[7rem] font-bold text-white bg-black border-0;
+}
 
 .div-player-panel-default {
     @apply gap-4 flex flex-col;
 }
-
-/* md: row-start-1 md:row-end-3 md:col-start-1 md:col-end-1 flex md:flex-col md:justify-center md:items-center */

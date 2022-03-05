@@ -1,6 +1,6 @@
-/*
-! tailwindcss v3.0.23 | MIT License | https://tailwindcss.com
-*/
+/* @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;700&family=Ubuntu:ital,wght@0,400;0,700;1,400&display=swap'); */
+
+/* ! tailwindcss v3.0.23 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -476,28 +476,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   position: fixed;
 }
 
-.absolute {
-  position: absolute;
-}
-
-.relative {
-  position: relative;
-}
-
 .left-0 {
   left: 0px;
 }
 
 .top-0 {
   top: 0px;
-}
-
-.z-50 {
-  z-index: 50;
-}
-
-.z-40 {
-  z-index: 40;
 }
 
 .z-auto {
@@ -572,10 +556,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   height: 100%;
 }
 
-.h-\[100px\] {
-  height: 100px;
-}
-
 .w-28 {
   width: 7rem;
 }
@@ -596,8 +576,8 @@ Ensure the default browser behavior of the `hidden` attribute.
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.grid-rows-\[1fr_2fr_1fr\] {
-  grid-template-rows: 1fr 2fr 1fr;
+.grid-rows-\[1fr_3fr_1fr\] {
+  grid-template-rows: 1fr 3fr 1fr;
 }
 
 .grid-rows-3 {
@@ -606,10 +586,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .flex-col {
   flex-direction: column;
-}
-
-.items-start {
-  align-items: flex-start;
 }
 
 .items-center {
@@ -628,21 +604,21 @@ Ensure the default browser behavior of the `hidden` attribute.
   gap: 0.75rem;
 }
 
-.gap-6 {
-  gap: 1.5rem;
+.rounded-lg {
+  border-radius: 0.5rem;
 }
 
-.rounded-sm {
-  border-radius: 0.125rem;
+.border-\[1px\] {
+  border-width: 1px;
 }
 
 .border-0 {
   border-width: 0px;
 }
 
-.bg-slate-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(148 163 184 / var(--tw-bg-opacity));
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 
 .bg-black {
@@ -650,12 +626,17 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(0 0 0 / var(--tw-bg-opacity));
 }
 
+.bg-white {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
 .p-5 {
   padding: 1.25rem;
 }
 
-.p-3 {
-  padding: 0.75rem;
+.p-2 {
+  padding: 0.5rem;
 }
 
 .py-2 {
@@ -668,12 +649,34 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-right: 1rem;
 }
 
+.pt-8 {
+  padding-top: 2rem;
+}
+
 .pt-7 {
   padding-top: 1.75rem;
 }
 
-.pl-\[50px\] {
-  padding-left: 50px;
+.pb-0 {
+  padding-bottom: 0px;
+}
+
+.font-\[\'Orbitron\'\] {
+  font-family: 'Orbitron';
+}
+
+.font-\[\'Rajdhani\'\] {
+  font-family: 'Rajdhani';
+}
+
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
 }
 
 .text-lg {
@@ -690,13 +693,25 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
+.text-black {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+/* html { */
+
+/* font-family: 'Rajdhani', sans-serif; */
+
+/* font-family: 'Ubuntu', sans-serif; */
+
+/* } */
+
 .animation-notify {
   -webkit-animation: shake 0.5s;
           animation: shake 0.5s;
   -webkit-animation-iteration-count: 1;
           animation-iteration-count: 1;
-  -webkit-animation-delay: 0.7s;
-          animation-delay: 0.7s;
+  /* animation-delay: 0.7s; */
 }
 
 @-webkit-keyframes shake {
@@ -791,15 +806,132 @@ Ensure the default browser behavior of the `hidden` attribute.
   }
 }
 
+.animation-mark {
+  -webkit-animation: text-fadein 1s;
+          animation: text-fadein 1s;
+}
+
+@-webkit-keyframes text-fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes text-fadein {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.animation-line {
+  -webkit-animation-name: text-fadein-line;
+          animation-name: text-fadein-line;
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+  /* animation-delay: 2s; */
+}
+
+@-webkit-keyframes text-fadein-line {
+  0% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes text-fadein-line {
+  0% {
+    opacity: 0;
+  }
+
+  40% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.animation-mark-pulse {
+  -webkit-animation-name: mark-pulse;
+          animation-name: mark-pulse;
+  -webkit-animation-duration: 0.7s;
+          animation-duration: 0.7s;
+  -webkit-animation-delay: 0.8s;
+          animation-delay: 0.8s;
+}
+
+@-webkit-keyframes mark-pulse {
+  0% {
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mark-pulse {
+  0% {
+    opacity: 0;
+  }
+
+  25% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
 .board-cell {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-width: 0px;
   --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  font-size: 5rem;
+  background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+  font-size: 7rem;
   font-weight: 700;
   line-height: 1;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .div-player-panel-default {
@@ -808,7 +940,21 @@ Ensure the default browser behavior of the `hidden` attribute.
   gap: 1rem;
 }
 
-/* md: row-start-1 md:row-end-3 md:col-start-1 md:col-end-1 flex md:flex-col md:justify-center md:items-center */
+.after\:content-\[\'_\(x\)\'\]::after {
+  --tw-content: ' (x)';
+  content: var(--tw-content);
+}
+
+.after\:content-\[\'_\(o\)\'\]::after {
+  --tw-content: ' (o)';
+  content: var(--tw-content);
+}
+
+@media (min-width: 640px) {
+  .sm\:text-\[9rem\] {
+    font-size: 9rem;
+  }
+}
 
 @media (min-width: 768px) {
   .md\:col-start-1 {
@@ -851,8 +997,9 @@ Ensure the default browser behavior of the `hidden` attribute.
     grid-row-end: 2;
   }
 
-  .md\:h-\[200px\] {
-    height: 200px;
+  .md\:mx-auto {
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .md\:grid-cols-\[1fr_3fr_1fr\] {
@@ -867,16 +1014,24 @@ Ensure the default browser behavior of the `hidden` attribute.
     flex-direction: column;
   }
 
-  .md\:items-center {
-    align-items: center;
+  .md\:px-16 {
+    padding-left: 4rem;
+    padding-right: 4rem;
   }
 
-  .md\:justify-center {
-    justify-content: center;
+  .md\:px-\[80px\] {
+    padding-left: 80px;
+    padding-right: 80px;
   }
 
-  .md\:gap-5 {
-    gap: 1.25rem;
+  .md\:px-\[100px\] {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+
+  .md\:px-\[10\%\] {
+    padding-left: 10%;
+    padding-right: 10%;
   }
 
   .md\:pl-0 {
@@ -885,5 +1040,9 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .md\:text-\[13rem\] {
     font-size: 13rem;
+  }
+
+  .md\:text-\[12rem\] {
+    font-size: 12rem;
   }
 }
