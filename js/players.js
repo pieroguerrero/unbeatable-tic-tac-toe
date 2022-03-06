@@ -27,13 +27,11 @@ const playerActions = {
     },
     notifyTurn: function () {
 
-        this.pPlayerName.classList.add("animation-notify");
-        this.pPlayerName.classList.add("font-bold");
+        this.pPlayerName.classList.add("animation-notify", "before:content-['▶_']");
     },
     unNotifyTurn: function () {
 
-        this.pPlayerName.classList.remove("animation-notify");
-        this.pPlayerName.classList.remove("font-bold");
+        this.pPlayerName.classList.remove("animation-notify", "before:content-['▶_']");
     },
     getWins: function () {
         return this.nWins;
@@ -46,6 +44,9 @@ const playerActions = {
     },
     getImgAlt: function () {
         return this.imgAlt;
+    },
+    setName: function (newName) {
+        this.name = newName;
     },
 
 };
@@ -70,7 +71,41 @@ export function createPlayer(name, imgAlt) {
         getWins: player.getWins.bind(player),
         setWins: player.setWins.bind(player),
         getImgAlt: player.getImgAlt.bind(player),
+        setName: player.setName.bind(player),
 
     };
 
 };
+
+const playerRobotActions = {
+
+    notifyTurn: function notifyTurn() {
+        this.notifyTurn();
+    },
+    setHtmlBoard: function (htmlBoard) {
+        this.htmlBoard = htmlBoard;
+    },
+
+};
+
+export function createPlayerRobot(name, imgAlt, htmlBoard) {
+
+    const objParent = createPlayer(name, imgAlt);
+    const obj = Object.create(playerRobotActions);
+
+    obj.htmlBoard = htmlBoard;
+    obj.notifyTurn = objParent.notifyTurn.bind(objParent);
+
+    return {
+        getID: objParent.getID,
+        setPanel: objParent.setPanel,
+        unNotifyTurn: objParent.unNotifyTurn,
+        getWins: objParent.getWins,
+        setWins: objParent.setWins,
+        getImgAlt: objParent.getImgAlt,
+        setName: objParent.setName,
+
+        notifyTurn: obj.notifyTurn.bind(obj),
+        setHtmlBoard: obj.setHtmlBoard.bind(obj),
+    };
+}

@@ -27,27 +27,27 @@
 
 <body class="h-screen flex flex-col font-['Orbitron'] bg-black text-white">
 
-    <header class="presentation-ui flex items-center justify-center pt-8">
+    <header class="flex items-center justify-center pt-8">
         <p class="font-bold text-5xl">Tic Tac Toe</p>
     </header>
-    <main class="flex-1">
+    <main class="flex-1 md:pt-8">
 
         <div class="game-ui h-full grid grid-rows-[1fr_3fr_1fr] grid-cols-2 
         md:grid-rows-[4fr_1fr] md:grid-cols-[1fr_3fr_1fr] p-5 pt-7 pb-0 gap-5 xl:px-[10%]">
             <div
                 class="player1 row-start-1 row-end-2 col-start-1 col-end-2
                 md:row-start-1 md:row-end-3 md:col-start-1 md:col-end-1 div-player-panel-default md:flex-col justify-center">
-                <div class="name-image flex items-center justify-center flex-col">
-                    <p class="text-2xl after:content-['_(x)']"></p>
+                <div class="name-image flex items-center justify-center">
+                    <p class="text-lg md:text-2xl after:content-['_(x)']"></p>
                 </div>
-                <div class="score flex flex-col justify-center items-center md:pl-0">
-                    <p class="wins-value text-2xl"></p>
+                <div class="score flex flex-col justify-center items-center">
+                    <p class="wins-value text-2xl md:text-4xl"></p>
                 </div>
             </div>
 
-            <div id="gameboard" class="font-['Rajdhani'] row-start-2 row-end-3 col-start-1 col-end-3
-            md:row-start-1 md:row-end-2 md:col-start-2 md:col-end-3
-            grid grid-rows-3 grid-cols-3 gap-3 bg-white border-[1px] border-black">
+            <div id="gameboard"
+                class="font-['Rajdhani'] row-start-2 row-end-3 col-start-1 col-end-3
+            md:row-start-1 md:row-end-2 md:col-start-2 md:col-end-3 grid grid-rows-3 grid-cols-3 gap-2 bg-white border-[1px] border-black">
                 <div id="r0-c0" class="board-cell md:text-[9rem] lg:text-[12rem]"></div>
                 <div id="r0-c1" class="board-cell md:text-[9rem] lg:text-[12rem]"></div>
                 <div id="r0-c2" class="board-cell md:text-[9rem] lg:text-[12rem]"></div>
@@ -63,16 +63,62 @@
 
             <div class="actions row-start-3 row-end-4 col-start-1 col-end-3
                 md:row-start-2 md:row-end-3 md:col-start-2 md:col-end-3 flex items-center justify-center">
-                <button class="m-auto py-2 px-4 border-0 bg-white w-28 text-black rounded-lg font-bold">Restart</button>
+                <button id="restart-game"
+                    class="m-auto py-2 px-4 border-0 bg-white text-black rounded-lg font-bold">Restart
+                    Game</button>
             </div>
             <div class="player2 row-start-1 row-end-2 col-start-2 col-end-3
                 md:row-start-1 md:row-end-3 md:col-start-3 md:col-end-4 div-player-panel-default justify-center">
-                <div class="name-image flex items-center justify-center flex-col">
-                    <p class="text-2xl after:content-['_(o)']"></p>
+                <div class="name-image flex items-center justify-center">
+                    <p class="text-lg md:text-2xl after:content-['_(o)']"></p>
                 </div>
-                <div class="score flex flex-col justify-center items-center md:pl-0">
-                    <p class="wins-value text-2xl"></p>
+                <div class="score flex flex-col justify-center items-center">
+                    <p class="wins-value text-2xl md:text-4xl"></p>
                 </div>
+            </div>
+        </div>
+        <div class="presentation-ui h-full flex flex-col items-center justify-center">
+            <div class="selection flex flex-col justify-center items-center gap-5">
+                <p class="instructions  font-bold text-3xl">Please, select an option:</p>
+                <ul>
+                    <li>
+                        <p id="pPlayers1"
+                            class="player-option text-2xl md:text-3xl hover:cursor-pointer hover:before:content-['▶_'] hover:font-bold">
+                            1
+                            Player</p>
+                    </li>
+                    <li>
+                        <p id="pPlayers2"
+                            class="player-option text-2xl md:text-3xl hover:cursor-pointer hover:before:content-['▶_'] hover:font-bold">
+                            2
+                            Players</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="names-collection h-full flex items-center justify-center">
+
+                <form id="form-collection" method="dialog" class=" flex flex-col items-center justify-center gap-9">
+                    <div class="player-name flex flex-col gap-2">
+
+                        <label class="font-bold text-lg" for="input-player1-name">Player 1 name:</label>
+                        <input class="peer text-black rounded-md shadow-inner text-[100%] w-[280px] p-1 pl-2"
+                            type="text" id="input-player1-name" name="input-player1-name" placeholder=" " required>
+                    </div>
+                    <div class="img-vs flex items-center justify-center">
+                        <p class="font-bold text-5xl">VS</p>
+                    </div>
+                    <div class="player-name flex flex-col gap-2">
+                        <label class="font-bold text-lg" for="input-player2-name">Player 2 name:</label>
+                        <input class="peer text-black rounded-md shadow-inner text-[100%] w-[280px] p-1 pl-2"
+                            type="text" id="input-player2-name" name="input-player2-name" placeholder=" " required>
+                    </div>
+                    <div class="flex items-center justify-center pt-8">
+                        <button id="start-now"
+                            class="m-auto py-4 px-8 border-0 bg-white text-black rounded-lg font-bold">Play
+                            Now</button>
+                    </div>
+                </form>
+
             </div>
         </div>
         <audio id="player1-audio" src="audio/player1.mp3" preload="auto"></audio>
@@ -80,6 +126,8 @@
         <audio id="welcome-audio" src="audio/welcome.mp3" preload="auto"></audio>
         <audio id="match-audio" src="audio/3inline.mp3" preload="auto"></audio>
         <audio id="tie-audio" src="audio/tie.mp3" preload="auto"></audio>
+        <audio id="fight-audio" src="audio/fight.mp3" preload="auto"></audio>
+        <audio id="selection-audio" src="audio/selection.mp3" preload="auto"></audio>
     </main>
     <!-- <svg id="svg-line" class="fixed left-0 top-0 m-0 pointer-events-none z-auto w-full h-full"></svg> -->
     <footer class="flex items-center justify-center gap-3 bg-white text-black p-2 text-lg">

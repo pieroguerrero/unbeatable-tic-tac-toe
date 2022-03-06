@@ -21,12 +21,6 @@ export function createBoard() {
     //_svgLine.classList.add("hidden");
     const _cellsHtml = _htmlBoard.querySelectorAll(".board-cell");
 
-
-    _cellsHtml.forEach(cell => {
-        cell.textContent = "";
-        cell.classList.remove("animation-mark-pulse");
-    });
-
     function _clickOnCell() {
 
         const rowPos = Number(this.id.split("-")[0].substring(1));
@@ -36,7 +30,15 @@ export function createBoard() {
     };
 
     //_cellsHtml.forEach(cell => cell.addEventListener("click", _clickOnCell.bind(cell)));
-    _cellsHtml.forEach(cell => cell.onclick = _clickOnCell.bind(cell));
+    //_cellsHtml.forEach(cell => cell.onclick = _clickOnCell.bind(cell));
+
+    _cellsHtml.forEach(cell => {
+
+        cell.textContent = "";
+        cell.classList.remove("animation-mark-pulse");
+        // @ts-ignore
+        cell.onclick = _clickOnCell.bind(cell)
+    });
 
     const _renderMark = (turn, imgAlt, rowPos, colPos) => {
 
@@ -69,8 +71,6 @@ export function createBoard() {
 
         return false;
     };
-
-
 
     //will check if, based on the last movement, there is a winner or not
     const veridateThreeInLine = (lastPlayerID, lastRowPos, lastColPos) => {
@@ -323,8 +323,7 @@ function myPlay(objAudio) {
         objAudio.audio.play();
     } else {
         objAudio.audio = document.getElementById(objAudio.id);
+        objAudio.volume = 0.6;
         objAudio.audio.play();
     }
-    // const audio = new Audio(tagName);
-    // audio.play();
 }

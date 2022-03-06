@@ -99,6 +99,12 @@
     }
 }
 
+.animation-mark-pulse-option {
+    animation-name: mark-pulse;
+    animation-duration: 0.7s;
+    animation-delay: 0.2s;
+}
+
 .animation-mark-pulse {
     animation-name: mark-pulse;
     animation-duration: 0.7s;
