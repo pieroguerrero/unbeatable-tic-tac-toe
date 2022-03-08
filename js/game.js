@@ -175,8 +175,8 @@ function onClickOption() {
 
 function startPresentation() {
 
-    audioWelcome.volume = 0.4;
-    //audioWelcome.play();
+    audioWelcome.volume = 0.2;
+    audioWelcome.play();
 
     divPresentation.classList.remove("hidden");
 
