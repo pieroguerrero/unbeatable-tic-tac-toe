@@ -1,48 +1,49 @@
 import { events } from "./pubsub.js";
 
-export function createBoard() {
+const boardActions = {
 
-    const _audioTags = {
-        welcome: { id: "welcome-audio", audio: null },
-        player1: { id: "player1-audio", audio: null },
-        player2: { id: "player2-audio", audio: null },
-        match: { id: "match-audio", audio: null },
-        tie: { id: "tie-audio", audio: null },
-    }
-
-    const _arrBoard = [
-        [null, null, null],
-        [null, null, null],
-        [null, null, null]
-    ];
-
-    const _htmlBoard = document.getElementById("gameboard");
-    //const _svgLine = document.getElementById("svg-line");
-    //_svgLine.classList.add("hidden");
-    const _cellsHtml = _htmlBoard.querySelectorAll(".board-cell");
-
-    function _clickOnCell() {
+    _clickOnCell: function () {
 
         const rowPos = Number(this.id.split("-")[0].substring(1));
         const colPos = Number(this.id.split("-")[1].substring(1));
 
         events.emit("clickOnCell", { rowPos, colPos });
-    };
+    },
+    notifyTie: function () {
 
-    //_cellsHtml.forEach(cell => cell.addEventListener("click", _clickOnCell.bind(cell)));
-    //_cellsHtml.forEach(cell => cell.onclick = _clickOnCell.bind(cell));
 
-    _cellsHtml.forEach(cell => {
+        this._cellsHtml.forEach(cell => {
+            cell.classList.add("animation-mark-pulse");
+        });
 
-        cell.textContent = "";
-        cell.classList.remove("animation-mark-pulse");
-        // @ts-ignore
-        cell.onclick = _clickOnCell.bind(cell)
-    });
+        this.myPlay(this._audioTags.tie);
 
-    const _renderMark = (turn, imgAlt, rowPos, colPos) => {
+    },
+    myPlay: function (objAudio) {
 
-        const cell = _htmlBoard.querySelector("#r" + rowPos + "-c" + colPos);//r0-c0
+        if (objAudio.audio) {
+
+            objAudio.audio.play();
+        } else {
+            objAudio.audio = document.getElementById(objAudio.id);
+            objAudio.volume = 0.6;
+            objAudio.audio.play();
+        }
+    },
+    getArrBoard: function () {
+        return this.arrBoard;
+    },
+    checkPositionEmpty: function (row, col) {
+
+        if (!this.arrBoard[row][col]) {
+            return true;
+        }
+
+        return false;
+    },
+    _renderMark: function (turn, imgAlt, rowPos, colPos) {
+
+        const cell = this._htmlBoard.querySelector("#r" + rowPos + "-c" + colPos);//r0-c0
 
         const newP = document.createElement("p");
         newP.setAttribute("style", "padding:0px,margin:0px;")
@@ -52,51 +53,91 @@ export function createBoard() {
         cell.appendChild(newP);
 
         if (turn === 1) {
-            myPlay(_audioTags.player1);
-        } else myPlay(_audioTags.player2);
+            this.myPlay(this._audioTags.player1);
+        } else this.myPlay(this._audioTags.player2);
+    },
+    placeMark: function (playerID, imgAlt, rowPos, colPos, turn) {
 
-    };
+        this.arrBoard[rowPos][colPos] = _createObjMark(playerID, imgAlt, rowPos, colPos);
+        this._renderMark(turn, imgAlt, rowPos, colPos);
+    },
+    pulseMarks: function (lastRowPos, lastColPos, direction) {
 
-    const placeMark = (playerID, imgAlt, rowPos, colPos, turn) => {
+        let rIni, cIni, rMed, cMed, rFin, cFin;
 
-        _arrBoard[rowPos][colPos] = _createObjMark(playerID, imgAlt, rowPos, colPos);
-        _renderMark(turn, imgAlt, rowPos, colPos);
-    };
+        switch (direction) {
+            case "vertical":
+                rIni = 0;
+                cIni = lastColPos;
 
-    const checkPositionEmpty = (row, col) => {
+                rFin = 2;
+                cFin = lastColPos;
 
-        if (!_arrBoard[row][col]) {
-            return true;
+                break;
+            case "horizontal":
+                rIni = lastRowPos;
+                cIni = 0;
+
+                rFin = lastRowPos;
+                cFin = 2;
+                break;
+            case "diag":
+                rIni = 0;
+                cIni = 0;
+
+                rFin = 2;
+                cFin = 2;
+                break;
+            case "rdiag":
+                rIni = 0;
+                cIni = 2;
+
+                rFin = 2;
+                cFin = 0;
+                break;
+
+            default:
+                break;
         }
 
-        return false;
-    };
+        rMed = (rIni + rFin) / 2;
+        cMed = (cIni + cFin) / 2;
 
-    //will check if, based on the last movement, there is a winner or not
-    const veridateThreeInLine = (lastPlayerID, lastRowPos, lastColPos) => {
+        const pIni = this._htmlBoard.querySelector("#r" + rIni + "-c" + cIni).firstElementChild;
+        const pMed = this._htmlBoard.querySelector("#r" + rMed + "-c" + cMed).firstElementChild;
+        const pFin = this._htmlBoard.querySelector("#r" + rFin + "-c" + cFin).firstElementChild;
+
+        pIni.classList.add("animation-mark-pulse");
+        pMed.classList.add("animation-mark-pulse");
+        pFin.classList.add("animation-mark-pulse");
+
+
+        setTimeout(() => this.myPlay(this._audioTags.match), 1000);
+    },
+    veridateThreeInLine: function (lastPlayerID, lastRowPos, lastColPos) {
 
         let vertical = 0;
         let horizontal = 0;
         let diag = 0;
         let rdiag = 0;
-        let size = _arrBoard.length;
+        let size = this.arrBoard.length;
         let result = null;
 
         for (let i = 0; i < size; i++) {
 
-            if ((_arrBoard[lastRowPos][i]) && (_arrBoard[lastRowPos][i].playerID === lastPlayerID)) {
+            if ((this.arrBoard[lastRowPos][i]) && (this.arrBoard[lastRowPos][i].playerID === lastPlayerID)) {
                 horizontal++;
             }
 
-            if ((_arrBoard[i][lastColPos]) && (_arrBoard[i][lastColPos].playerID === lastPlayerID)) {
+            if ((this.arrBoard[i][lastColPos]) && (this.arrBoard[i][lastColPos].playerID === lastPlayerID)) {
                 vertical++;
             }
 
-            if ((((lastRowPos === 0 && lastColPos === 0) || (lastRowPos === 2 && lastColPos === 2) || (lastRowPos === 1 && lastColPos === 1)) && ((_arrBoard[i][i]) && (_arrBoard[i][i].playerID === lastPlayerID)))) {
+            if ((((lastRowPos === 0 && lastColPos === 0) || (lastRowPos === 2 && lastColPos === 2) || (lastRowPos === 1 && lastColPos === 1)) && ((this.arrBoard[i][i]) && (this.arrBoard[i][i].playerID === lastPlayerID)))) {
                 diag++;
             }
 
-            if ((((lastRowPos === 2 && lastColPos === 0) || (lastRowPos === 0 && lastColPos === 2) || (lastRowPos === 1 && lastColPos === 1)) && ((_arrBoard[i][size - i - 1]) && (_arrBoard[i][size - i - 1].playerID === lastPlayerID)))) {
+            if ((((lastRowPos === 2 && lastColPos === 0) || (lastRowPos === 0 && lastColPos === 2) || (lastRowPos === 1 && lastColPos === 1)) && ((this.arrBoard[i][size - i - 1]) && (this.arrBoard[i][size - i - 1].playerID === lastPlayerID)))) {
                 rdiag++;
             }
         }
@@ -118,7 +159,7 @@ export function createBoard() {
 
                 result = "rdiag";
                 break;
-            case (!_arrBoard.some(row => row.includes(null))):
+            case (!this.arrBoard.some(row => row.includes(null))):
 
                 result = "full";
                 break;
@@ -127,9 +168,8 @@ export function createBoard() {
         }
 
         return result;
-    };
-
-    const _createLine = (start, end, direction) => {
+    },
+    _createLine: function (start, end, direction) {
 
         let x1, y1, x2, y2;
 
@@ -181,9 +221,8 @@ export function createBoard() {
         newLine.classList.add("animation-line");
 
         return newLine;
-    };
-
-    const drawThreeLine = (lastRowPos, lastColPos, direction) => {
+    },
+    drawThreeLine: function (lastRowPos, lastColPos, direction) {
 
         let rIni, cIni, rFin, cFin;
 
@@ -221,10 +260,10 @@ export function createBoard() {
                 break;
         }
 
-        const start = _htmlBoard.querySelector("#r" + rIni + "-c" + cIni).getBoundingClientRect();
-        const end = _htmlBoard.querySelector("#r" + rFin + "-c" + cFin).getBoundingClientRect();
+        const start = this._htmlBoard.querySelector("#r" + rIni + "-c" + cIni).getBoundingClientRect();
+        const end = this._htmlBoard.querySelector("#r" + rFin + "-c" + cFin).getBoundingClientRect();
 
-        const newLine = _createLine(start, end, direction);
+        const newLine = this._createLine(start, end, direction);
 
         // if (_svgLine.firstChild) {
         //     _svgLine.removeChild(_svgLine.firstChild);
@@ -234,77 +273,68 @@ export function createBoard() {
         // _svgLine.classList.remove("hidden");
         // _svgLine.classList.add("z-auto");
         //to animate de line: https://css-tricks.com/svg-line-animation-works/
-    };
+    },
+    restartBoard: function () {
 
-    const pulseMarks = (lastRowPos, lastColPos, direction) => {
+        // this.arrBoard.forEach(row => {
+        //     row = [null, null, null];
+        //     //row.forEach(cell => cell = null);
+        // });
 
-        let rIni, cIni, rMed, cMed, rFin, cFin;
-
-        switch (direction) {
-            case "vertical":
-                rIni = 0;
-                cIni = lastColPos;
-
-                rFin = 2;
-                cFin = lastColPos;
-
-                break;
-            case "horizontal":
-                rIni = lastRowPos;
-                cIni = 0;
-
-                rFin = lastRowPos;
-                cFin = 2;
-                break;
-            case "diag":
-                rIni = 0;
-                cIni = 0;
-
-                rFin = 2;
-                cFin = 2;
-                break;
-            case "rdiag":
-                rIni = 0;
-                cIni = 2;
-
-                rFin = 2;
-                cFin = 0;
-                break;
-
-            default:
-                break;
+        for (let index = 0; index < this.arrBoard.length; index++) {
+            this.arrBoard[index] = [null, null, null];
         }
 
-        rMed = (rIni + rFin) / 2;
-        cMed = (cIni + cFin) / 2;
+        this._cellsHtml.forEach(cell => {
 
-        const pIni = _htmlBoard.querySelector("#r" + rIni + "-c" + cIni).firstElementChild;
-        const pMed = _htmlBoard.querySelector("#r" + rMed + "-c" + cMed).firstElementChild;
-        const pFin = _htmlBoard.querySelector("#r" + rFin + "-c" + cFin).firstElementChild;
-
-        pIni.classList.add("animation-mark-pulse");
-        pMed.classList.add("animation-mark-pulse");
-        pFin.classList.add("animation-mark-pulse");
-
-
-        setTimeout(() => myPlay(_audioTags.match), 1000);
-
-    }
-
-    const notifyTie = () => {
-
-
-        _cellsHtml.forEach(cell => {
-            cell.classList.add("animation-mark-pulse");
+            cell.textContent = "";
+            cell.classList.remove("animation-mark-pulse");
         });
 
-        myPlay(_audioTags.tie);
-
-    };
-
-    return { checkPositionEmpty, placeMark, veridateThreeInLine, drawThreeLine, pulseMarks, notifyTie };
+    },
 };
 
+export function createBoard() {
+
+    const objBoard = Object.create(boardActions);
+
+    objBoard.arrBoard = [
+        [null, null, null],
+        [null, null, null],
+        [null, null, null]
+    ];
+    objBoard._audioTags = {
+        welcome: { id: "welcome-audio", audio: null },
+        player1: { id: "player1-audio", audio: null },
+        player2: { id: "player2-audio", audio: null },
+        match: { id: "match-audio", audio: null },
+        tie: { id: "tie-audio", audio: null },
+    };
+
+    objBoard._htmlBoard = document.getElementById("gameboard");
+    //const _svgLine = document.getElementById("svg-line");
+    //_svgLine.classList.add("hidden");
+    objBoard._cellsHtml = objBoard._htmlBoard.querySelectorAll(".board-cell");
+
+    objBoard._cellsHtml.forEach(cell => {
+
+        cell.textContent = "";
+        cell.classList.remove("animation-mark-pulse");
+        // @ts-ignore
+        cell.onclick = objBoard._clickOnCell.bind(cell);
+    });
+
+    return {
+        checkPositionEmpty: objBoard.checkPositionEmpty.bind(objBoard),
+        placeMark: objBoard.placeMark.bind(objBoard),
+        veridateThreeInLine: objBoard.veridateThreeInLine.bind(objBoard),
+        drawThreeLine: objBoard.drawThreeLine.bind(objBoard),
+        pulseMarks: objBoard.pulseMarks.bind(objBoard),
+        notifyTie: objBoard.notifyTie.bind(objBoard),
+        getArrBoard: objBoard.getArrBoard.bind(objBoard),
+        restartBoard: objBoard.restartBoard.bind(objBoard),
+    };
+};
 
 
 function _createObjMark(playerID, imgAlt, rowPos, colPos) {
@@ -316,14 +346,4 @@ function _createObjMark(playerID, imgAlt, rowPos, colPos) {
     };
 }
 
-function myPlay(objAudio) {
 
-    if (objAudio.audio) {
-
-        objAudio.audio.play();
-    } else {
-        objAudio.audio = document.getElementById(objAudio.id);
-        objAudio.volume = 0.6;
-        objAudio.audio.play();
-    }
-}

@@ -79,7 +79,7 @@
         </div>
         <div class="presentation-ui h-full flex flex-col items-center justify-center">
             <div class="selection flex flex-col justify-center items-center gap-5">
-                <p class="instructions  font-bold text-3xl">Please, select an option:</p>
+                <p class="instructions  font-bold text-2xl md:text-3xl">Please, select an option:</p>
                 <ul>
                     <li>
                         <p id="pPlayers1"
@@ -97,26 +97,29 @@
             </div>
             <div class="names-collection h-full flex items-center justify-center">
 
-                <form id="form-collection" method="dialog" class=" flex flex-col items-center justify-center gap-9">
-                    <div class="player-name flex flex-col gap-2">
+                <form id="form-collection" method="dialog">
+                    <fieldset class="flex flex-col items-center justify-center gap-9">
+                        <div class="player-name flex flex-col gap-2">
 
-                        <label class="font-bold text-lg" for="input-player1-name">Player 1 name:</label>
-                        <input class="peer text-black rounded-md shadow-inner text-[100%] w-[280px] p-1 pl-2"
-                            type="text" id="input-player1-name" name="input-player1-name" placeholder=" " required>
-                    </div>
-                    <div class="img-vs flex items-center justify-center">
-                        <p class="font-bold text-5xl">VS</p>
-                    </div>
-                    <div class="player-name flex flex-col gap-2">
-                        <label class="font-bold text-lg" for="input-player2-name">Player 2 name:</label>
-                        <input class="peer text-black rounded-md shadow-inner text-[100%] w-[280px] p-1 pl-2"
-                            type="text" id="input-player2-name" name="input-player2-name" placeholder=" " required>
-                    </div>
-                    <div class="flex items-center justify-center pt-8">
-                        <button id="start-now"
-                            class="m-auto py-4 px-8 border-0 bg-white text-black rounded-lg font-bold">Play
-                            Now</button>
-                    </div>
+                            <label class="font-bold text-lg" for="input-player1-name">Player 1 name:</label>
+                            <input class="peer text-black rounded-md shadow-inner text-[100%] w-[280px] p-1 pl-2"
+                                type="text" id="input-player1-name" name="input-player1-name" placeholder=" " required>
+                        </div>
+                        <div class="img-vs flex items-center justify-center">
+                            <p class="font-bold text-5xl">VS</p>
+                        </div>
+                        <div class="player-name flex flex-col gap-2">
+                            <label class="font-bold text-lg" for="input-player2-name">Player 2 name:</label>
+                            <input class="peer text-black rounded-md shadow-inner text-[100%] w-[280px] p-1 pl-2"
+                                type="text" id="input-player2-name" name="input-player2-name" placeholder=" " required>
+                        </div>
+                        <div class="flex items-center justify-center pt-8">
+                            <button id="start-now"
+                                class="m-auto py-4 px-8 border-0 bg-white text-black rounded-lg font-bold">Play
+                                Now</button>
+                        </div>
+                    </fieldset>
+
                 </form>
 
             </div>

@@ -32,12 +32,8 @@ function play(objPostion) {
 
         if (threeLineResult && threeLineResult !== "full") {
             player.setWins(player.getWins() + 1);
-            //secPlayer.setLosses(secPlayer.getLosses() + 1);
 
-            //referee.gameBoard.drawThreeLine(objPostion.rowPos, objPostion.colPos, threeLineResult);
             referee.gameBoard.pulseMarks(objPostion.rowPos, objPostion.colPos, threeLineResult);
-
-
 
             referee.turn = 1;
 
@@ -45,7 +41,7 @@ function play(objPostion) {
             referee.player2.unNotifyTurn();
 
             setTimeout(() => {
-                referee.gameBoard = createBoard();
+                referee.gameBoard.restartBoard();
             }, 2300);
 
             setTimeout(() => {
@@ -66,7 +62,7 @@ function play(objPostion) {
             referee.player2.unNotifyTurn();
 
             setTimeout(() => {
-                referee.gameBoard = createBoard();
+                referee.gameBoard.restartBoard();
             }, 2300);
 
             setTimeout(() => {
@@ -96,7 +92,7 @@ function startNewGame(namePlayer1, namePlayer2) {
 
     referee.gameBoard = createBoard();
     referee.player1 = createPlayer(namePlayer1, "x");
-    referee.player2 = (referee.numPlayers === 2) ? createPlayer(namePlayer2, "o") : createPlayerRobot(namePlayer2, "o", referee.gameBoard);
+    referee.player2 = (referee.numPlayers === 2) ? createPlayer(namePlayer2, "o") : createPlayerRobot(namePlayer2, "o", referee.gameBoard.getArrBoard());
     referee.turn = 1;
     referee.numGame = 1;
 
@@ -116,9 +112,15 @@ function startNewGame(namePlayer1, namePlayer2) {
 
 function onClickStartNow() {
 
-    if (document.getElementById("form-collection").valid) {
+    const frm = document.getElementById("form-collection");
+
+    if (frm.checkValidity()) {
         audioWelcome.pause();
         audioWelcome.currentTime = 0;
+
+        const audioSelection = document.getElementById("fight-audio");
+        audioSelection.volume = 0.4;
+        audioSelection.play();
 
         const inputPlayer2Name = document.getElementById("input-player2-name");
         const inputPlayer1Name = document.getElementById("input-player1-name");
