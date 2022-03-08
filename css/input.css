@@ -134,7 +134,7 @@
 }
 
 .board-cell {
-    @apply leading-none flex items-center justify-center text-[5rem] font-bold text-white bg-black border-0;
+    @apply leading-none flex items-center justify-center text-[3rem] font-bold text-white bg-black border-0;
 }
 
 .div-player-panel-default {
