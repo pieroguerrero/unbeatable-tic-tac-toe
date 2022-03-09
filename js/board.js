@@ -23,11 +23,11 @@ const boardActions = {
 
         if (objAudio.audio) {
 
-            objAudio.volume = 0.3;
+            objAudio.volume = 0.1;
             objAudio.audio.play();
         } else {
             objAudio.audio = document.getElementById(objAudio.id);
-            objAudio.volume = 0.3;
+            objAudio.volume = 0.1;
             objAudio.audio.play();
         }
     },
