@@ -93,7 +93,7 @@ function play(objPostion) {
 function startNewGame(namePlayer1, namePlayer2) {
 
     audioPlayTime.currentTime = 0;
-    audioPlayTime.volume = 0.03;
+    audioPlayTime.volume = 0.01;
     audioPlayTime.play();
 
     referee.gameBoard = createBoard();
