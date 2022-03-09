@@ -12,6 +12,8 @@ const divCollection = document.querySelector(".names-collection");
 const divGame = document.querySelector(".game-ui");
 
 const audioWelcome = document.getElementById("welcome-audio");
+const audioPlayTime = document.getElementById("playtime-audio");
+
 
 function play(objPostion) {
 
@@ -90,6 +92,10 @@ function play(objPostion) {
 
 function startNewGame(namePlayer1, namePlayer2) {
 
+    audioPlayTime.currentTime = 0;
+    audioPlayTime.volume = 0.1;
+    audioPlayTime.play();
+
     referee.gameBoard = createBoard();
     referee.player1 = createPlayer(namePlayer1, "x");
     referee.player2 = (referee.numPlayers === 2) ? createPlayer(namePlayer2, "o") : createPlayerRobot(namePlayer2, "o", referee.gameBoard.getArrBoard());
@@ -112,9 +118,13 @@ function startNewGame(namePlayer1, namePlayer2) {
 
 function onClickStartNow() {
 
-    const frm = document.getElementById("form-collection");
+    //const frm = document.getElementById("form-collection");
 
-    if (frm.checkValidity()) {
+
+    const inputPlayer2Name = document.getElementById("input-player2-name");
+    const inputPlayer1Name = document.getElementById("input-player1-name");
+
+    if (inputPlayer2Name.checkValidity() && inputPlayer1Name.checkValidity()) {
         audioWelcome.pause();
         audioWelcome.currentTime = 0;
 
@@ -122,8 +132,8 @@ function onClickStartNow() {
         audioSelection.volume = 0.4;
         audioSelection.play();
 
-        const inputPlayer2Name = document.getElementById("input-player2-name");
-        const inputPlayer1Name = document.getElementById("input-player1-name");
+        // const inputPlayer2Name = document.getElementById("input-player2-name");
+        // const inputPlayer1Name = document.getElementById("input-player1-name");
 
         startNewGame(inputPlayer1Name.value, inputPlayer2Name.value);
     }
@@ -175,6 +185,9 @@ function onClickOption() {
 
 function startPresentation() {
 
+
+    audioPlayTime.pause();
+    audioWelcome.currentTime = 0;
     audioWelcome.volume = 0.2;
     audioWelcome.play();
 
