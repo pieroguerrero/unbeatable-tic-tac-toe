@@ -35,47 +35,42 @@
 
 ### Front-end:
 - Vanilla Javascript.
-- Internal application state managed 100% with [Clousures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures).
+- The internal application state is managed 100% with [Clousures](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures).
 - CSS design with [Tailwind CSS](https://tailwindcss.com/). 
 - The web app is 100% responsive.
 
 ### Back-end:
-- This web app consumes APIs provided by [OpenWeather.com](https://openweathermap.org/).
-- The APIs consumption was implemented with the [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API).
-- Since it provides online information, an owned back-end is not planned so far.
+- This web app has no backend for now.
 
 ### Testing:
 - Manual testing was done with 100% coverage.
-- While testing, the project was run using the Chrome's Development Tools "Fast 3G" and "No Caching" options. So the app is ready for slow internet connections.
 
 ## Features
 
-- View current average weather ✔
-- View next 24 hours forecast weather ✔
-- View next 7 days forecast weather ✔
-- Search weather by location name ✔
-- Get current GPS location weather ✔
-- Transform temperature units From and TO C° and F° ✔
-- Show Humidity(%), Changes of Rain(%), Wind Speed(Km/h) and Feels Like(C°) information ✔
-- Location stored on Local Storage for future usages ✔
+- Play against an AI ✔
+- Play against a second human player in the same device ✔
+- Visualize score ✔
+- Enter a custom name ✔
+- Receive feedback sound to anounce the winner or loser ✔
+- Play welcome sound ✔
+- Sign-up and Log-in 🔜
+- Save score in the cloud 🔜
+- Play in real time against a second human in a second device 🔜
 
 ## Screenshots
 Click an image to enlarge.
 
-| Dashboard 1 | Dashboard 1 responsive | Dashboard 2 |
+| Game Selection | Name configuration | Game Board |
 | ------------ | -------------- | ------------- |
-| <img src="https://user-images.githubusercontent.com/26049605/189377040-22dac376-4787-4041-9152-b3735654cdcd.png" width="370px" height="auto" alt="Tasks Dashboard" title="Click to enlarge">   | <img src="https://user-images.githubusercontent.com/26049605/189377750-3bc91486-81eb-45e0-a761-9b1faafd70d4.png" width="200px" height="auto" alt="Tasks Dashboard" title="Click to enlarge">     | <img src="https://user-images.githubusercontent.com/26049605/189377466-66ba3ba7-5282-45bd-8711-9be33404981c.png" width="200px" height="auto" alt="Editing Task" title="Click to enlarge">    |
+| <img src="https://user-images.githubusercontent.com/26049605/189664448-829857c7-ef4b-40be-ae35-48fa5720e45e.png" width="200px" height="auto" alt="Welcome panel" title="Click to enlarge">   | <img src="https://user-images.githubusercontent.com/26049605/189664699-32a610c7-32b4-4646-a753-c10abdad626f.png" width="200px" height="auto" alt="Name selection" title="Click to enlarge">     | <img src="https://user-images.githubusercontent.com/26049605/189664832-baf96579-3a91-479c-803e-b575182db926.png" width="200px" height="auto" alt="Game board" title="Click to enlarge">    |
 
 ## Setup
-Clone this project by doing:
-```
-$ git clone https://github.com/pieroguerrero/weatherapp.git
-```
-Then go to the folder you cloned the code and execure:
-```
-$ npm install
-```
-**WARNING:** If you are going to use other libraries to achieve other purposes be carefull and remove the caret (^) prefix that the dependency versions have.
+1. Clone this project by doing:
+
+    ```
+    $ git clone https://github.com/pieroguerrero/unbeatable-tic-tac-toe.git
+    ```
+2. Via terminal, go to the folder you've just cloned the code and [follow these steps in the official TailwindCSS page](https://tailwindcss.com/docs/installation) to install the CLI.
 
 ## Project Status
 Project is: _completed_
